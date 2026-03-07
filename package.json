@@ -1,0 +1,15 @@
+{
+  "name": "real-estate",
+  "version": "1.0.0",
+  "description": "Full-stack real estate application",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "server": "cd backend && npm run dev",
+    "dev": "start cmd /k \"cd client && npm run dev\" && start cmd /k \"cd backend && npm run dev\"",
+    "install:all": "cd client && npm install && cd ../backend && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
