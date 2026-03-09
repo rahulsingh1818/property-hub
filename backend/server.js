@@ -1,4 +1,4 @@
-import "dotenv/config";   // ← MUST be first: loads .env before any other import
+import "dotenv/config";   // ← MUST be first
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
@@ -13,8 +13,6 @@ import uploadRoutes from "./routes/uploadRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import visitRoutes from "./routes/visitRoutes.js";
 import wishlistRoutes from "./routes/wishlistRoutes.js";
-
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -34,27 +32,23 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/visits", visitRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 
-// Atlas connection
+// MongoDB Atlas connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Atlas Connected || Database Connected successfully"))
   .catch((err) => console.log("DB Error:", err));
 
-// ✅ Frontend static files serve karo (client/dist)
+
+// ✅ Frontend static files serve
 app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 
-// ✅ React Router ke liye catch-all route (API routes ke baad)
-app.get((req, res) => {
+
+// ✅ React Router ke liye catch-all route
+app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// ✅ Render ke liye dynamic port
+const PORT = process.env.PORT || 5000;
 
-// mongoose
-//   .connect("mongodb://127.0.0.1:27017/realestate")
-//   .then(() => console.log("MongoDB Connected"))
-//   .catch((err) => console.log(err));
-
-// app.listen(5000, () => {
-//   console.log("Server running on port 5000");
-// });
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
